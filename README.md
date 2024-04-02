@@ -6,6 +6,7 @@ Un pokédex, est une sorte de dictionnaire de tous les pokémon (petites créatu
 et disposent de caractéristiques de combat appelées statistiques. Chaque pokémon possède aussi un ou deux types (plante, roche, feu...).
 
 Vous aurez besoin pour cette mission des outils suivants :
+
 - NodeJS
 - PostGreSQL
 - HTML et CSS
