@@ -16,11 +16,10 @@ app.set('views', './app/views');
 // On fait le lien vers les fichiers statics
 app.use(express.static('public'));
 
+// on crée la route de la page d'accueil
 app.get('/', (req,res) => {
 	res.render ('home');
 });
-
-
 
 
 app.listen(PORT, () => {
