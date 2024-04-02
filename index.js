@@ -9,6 +9,10 @@ const express = require('express');
 //on la renomme app pour plus de facilité
 const app = express();
 
+//appel des autres fichiers
+const dataMapper = require('./app/dataMapper/dataMapper');
+const mainController = require('./app/controllers/mainController');
+
 // On met en place le moteur de rendu
 app.set('view engine', 'ejs');
 app.set('views', './app/views');
@@ -17,9 +21,7 @@ app.set('views', './app/views');
 app.use(express.static('public'));
 
 // on crée la route de la page d'accueil
-app.get('/', (req,res) => {
-	res.render ('home');
-});
+app.get('/', mainController.homePage);
 
 
 app.listen(PORT, () => {

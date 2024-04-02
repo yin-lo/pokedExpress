@@ -4,42 +4,16 @@
 <%- include('partials/header') %>
 
 	<ul class="pokemon-list">
-		<li class="pokemon-list__card">
-			<a href="">
-				<img src="/img/1.png" alt="Bulbizarre">
-				<h2>#1 Bulbizarre</h2>
-			</a>
-		</li>
-		<li class="pokemon-list__card">
-			<a href="">
-				<img src="/img/1.png" alt="Bulbizarre">
-				<h2>#1 Bulbizarre</h2>
-			</a>
-		</li>
-		<li class="pokemon-list__card">
-			<a href="">
-				<img src="/img/1.png" alt="Bulbizarre">
-				<h2>#1 Bulbizarre</h2>
-			</a>
-		</li>
-		<li class="pokemon-list__card">
-			<a href="">
-				<img src="/img/1.png" alt="Bulbizarre">
-				<h2>#1 Bulbizarre</h2>
-			</a>
-		</li>
-		<li class="pokemon-list__card">
-			<a href="">
-				<img src="/img/1.png" alt="Bulbizarre">
-				<h2>#1 Bulbizarre</h2>
-			</a>
-		</li>
-		<li class="pokemon-list__card">
-			<a href="">
-				<img src="/img/1.png" alt="Bulbizarre">
-				<h2>#1 Bulbizarre</h2>
-			</a>
-		</li>
+		<% allPokemons.forEach(pokemon => { %>
+			<li class="pokemon-list__card">
+				<a href="/pokemon/ <%= pokemon.numero %>">
+					<img src="/img/<%= pokemon.numero %>.png" alt="<%= pokemon.nom %>">
+					<h2># <%= pokemon.numero %> <%= pokemon.nom %></h2>
+				</a>
+			</li>
+		 
+		<% }) %>
+		
 		
 	</ul>
 </body>
