@@ -1,46 +1,113 @@
-# Pokédex
+# Challenge
 
-Apprentis professeurs Chen, j'ai une requête pour vous ! Je souhaiterais un pokédex tout beau, tout neuf !
+## Objectif
 
-Un pokédex, est une sorte de dictionnaire de tous les pokémon (petites créatures fictives et adorables). Ces derniers peuvent se battre
-et disposent de caractéristiques de combat appelées statistiques. Chaque pokémon possède aussi un ou deux types (plante, roche, feu...).
+Réviser les notions de la saison 4.
 
-Vous aurez besoin pour cette mission des outils suivants :
+- Initialiser une base de données
+- Faire des requêtes SQL
+- express / ejs
+- routage
+- controller
+- model (dataMapper)
 
-- NodeJS
-- PostGreSQL
-- HTML et CSS
-- npm
-- express et ses copains
+## Étape 0: MCD
 
-Une base de données à importer vous est fournie à la racine du projet : `pokedex.sql`. Elle contient la liste des pokémon et leurs types. Vous n'avez pas à la modifier.
+Le script de création de BDD est déjà fourni dans le fichier `data/create_db.sql`.
+Cependant, le but est d'essayer de faire le MCD de la base de données sans regarder le script.
 
-## Instructions
+Un pokémon dispose des caractéristiques suivantes :
+- un numéro de pokedex
+- un numéro de génération
+- une catégorie
+- un nom français / anglais / japonais
+- une image normal (url)
+- une image shiny (url)
+- des types (plante, feu, eau, etc.)
+- des statistiques (pv, attaque, défense, vitesse, etc.)
+- des talents (capacités spéciales)
 
-Voici la liste des pages à faire, vous avez un aperçu de chacune dans le dossier résultat :
+Modéliser la base de données en tenant compte de ces caractéristiques.
 
-- Une page d'accueil qui liste tous les pokémon de la base (home.png)
-- Une page détail d'un pokémon qui affiche son type et ses stats (detail.png)
+## Étape 1: Mise en place
 
-La police utilisée est Bree Serif sur Google Fonts. Pour les couleurs, utilisez une pipette :wink:. Pour celles des types, elle est fournie dans la base.
+Utiliser npm pour:
 
-## Par où commencer ?
+- Initialiser le projet.
+- Installer les dépendances nécessaires : `express`, `ejs`, `pg`, et `dotenv`.
 
-Voilà quelques pistes pour vous aider :
+Le projet utilise pour gérer le style la lib `picocss` (https://picocss.com/).
 
-- Commencez par installer express, pg, et toute autre dépendance nécessaire avec npm
-- Mettez en place les dossiers nécessaires (#SoC !)
-- Vous aurez besoin d'un controller principal (mainController.js)
-- Il y a deux routes à créer
-- Pour récupérer les types d'un pokémon, il faut utiliser une jointure sur la table `pokemon_type`
-- Les images sont déjà prêtes et portent le nom du numéro du pokémon dans le dossier `public/img`
-- Pour les barres de statistiques, la valeur maximale est de 255. On peut donc utiliser un produit en croix pour le remplissage :wink:
+## Étape 2: Initialisation de la base de données
 
-## Bonus
+Les données sont fournies dans un fichier `data/create_db.sql`, à importer dans une base de données PostGreSQL.
 
-Je veux ajouter une fonctionnalité : récupérer des pokémons selon leur type.
+Créer un nouvel utilisateur et une nouvelle base de données dans PostGreSQL, puis y importer les données du fichier. [Cette fiche récap](https://kourou.oclock.io/ressources/objectifs/creer-une-nouvelle-base-de-donnee-sur-postgresql/) peut être utile :wink:.
 
-Il nous faudra donc :
+Créer un fichier `.env` contenant les informations du fichier `.env.example`, pour y mettre les informations de connexion à la base de données.
 
-- Une page qui liste les types de la base (types.png) quand on clique sur l'un on arrive sur la page suivante
-- Une page qui liste les pokémon filtrés par le type cliqué sur la page précédente (electrik.png)
+Créer ensuite un fichier `dataMapper.js` (Benjamin) ou `models/pokemon.js` (Quentin) dans le dossier `app`.
+
+Dans ce fichier, copier ce code :
+
+```javascript
+const client = require('../database');
+
+const pokedexDataMapper = {
+
+
+};
+
+module.exports = pokedexDataMapper;
+```
+
+## Étape 3: Récupération des pokemons
+
+Dans le fichier `dataMapper/pokedex.js`, créer une méthode `getAllPokemon` qui récupère tous les pokemons de la base de données.
+
+## Étape 4: Affichage des pokemons
+
+Dans le controller appeler sur la route `/` :
+
+- Récupérer tous les pokemons de la base de données. (utiliser la méthode créée précédemment)
+- Passer les pokemons récupérés à la vue `index.ejs`.
+
+## Étape 5: Affichage d'un pokemon
+
+Créer une nouvelle route `/pokemon/:id` qui affiche les informations d'un pokemon.
+
+Dans le model / dataMapper :
+
+- Créer une méthode `getOnePokemon` qui récupère un pokemon en fonction de son id.
+
+Dans le controller :
+
+- Récupérer le pokemon correspondant à l'id passé en paramètre de la route.
+- Passer le pokemon récupéré à la vue `pokemon.ejs`.
+
+## Bonus 1 : Affichage des types
+
+Sur la page de détail d'un pokemon, afficher ses types (données situer sur une autre table)
+
+## Bonus 2 : Faire des requêtes SQL
+
+Ne pas hésiter à créer des pages sur lesquelles afficher les résultats des requêtes SQL suivantes.
+
+Requêtes SQL à faire :
+- Récupérer les pokemons de la génération 1 (filtre)
+- Récupérer les pokemons avec leurs statistiques (jointure)
+- Récupérer les pokemons ayant un talent "Brasier" (jointure)
+- Récupérer les pokemons ayant une attaque supérieure à 100 (jointure + filtre)
+- Récupérer les pokemons ayant une attaque supérieure à 100 et une défense inférieure à 50 (jointure + filtre)
+- Récupérer les pokemons de type "Eau" (jointure de table intermédiaire)
+- Compter le nombre de pokemons de type "Feu" (agrégation)
+- Compter le nombre de pokemons de chaque type (aggrégation + regroupement)
+- Récupérer un pokémon depuis son id ainsi que ses types aggréger dans un tableau (jointure + agrégation)
+  - Exemple : `{ id: 1, name_fr: "Bulbizarre", types: ["Plante", "Poison"] }`
+  - Voir la fonction `array_agg` de PostgreSQL
+- Pareil que précédemment mais avec les types sous forme de tableau d'objets (jointure + agrégation)
+  - Exemple : `{ id: 1, name_fr: "Bulbizarre", types: [{ id: 1, name: "Plante" }, { id: 2, name: "Poison" }] }`
+- Récupérer les pokémons avec les types et les talents (jointure multiple)
+  - Exemple : `[{ id: 1, name_fr: "Bulbizarre", types: [{id: 1, name: "Plante"], talents: [{id: 1, name: "Engrais"}]}, ...]`
+
+Correction => [ici]('./requete.sql')

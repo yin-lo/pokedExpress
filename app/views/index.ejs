@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+
+<main class="container">
+  <h1>Pokedex</h1>
+  <section class="grid">
+    <% pokemons.forEach(pokemon => { %>
+      <a href="/pokemon/<%= pokemon.id %>">
+        <article>
+          <h2><%= pokemon.name_fr %></h2>
+          <img src="<%= pokemon.sprite_regular %>" alt="<%= pokemon.name_fr %>" />
+        </article>
+      </a>
+    <% }) %>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

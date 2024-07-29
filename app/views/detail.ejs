@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<main class="container">
+  <a href="/">&larr; Retour</a>
+  <h1><%= pokemon.name_fr %></h1>
+  <h2><%= pokemon.category %></h2>
+  <p>
+    <strong>Type:</strong>
+    <% types.forEach(type => { %>
+      <span>
+        <img src="<%= type.image %>" alt="<%= type.name %>" />
+        <%= type.name %>
+      </span>
+    <% }) %>
+  </p>
+  <img src="<%= pokemon.sprite_regular %>" alt="<%= pokemon.name_fr %>" />
+  <img src="<%= pokemon.sprite_shiny %>" alt="<%= pokemon.name_fr %> shiny" />
+</main>
+
+<%- include('partials/footer') %>
